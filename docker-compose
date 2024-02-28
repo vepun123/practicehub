@@ -1,0 +1,14 @@
+version: v1
+kind: deployment
+ web:
+   build: ./ frontend
+   port: 
+     -80:80
+   volumes: 
+     (app desired)  
+ api:
+   build: ./ backend
+   port:
+    -3000:3000
+   volumes:
+     (app desired) 
