@@ -1,0 +1,19 @@
+version: v1
+kind: deployment
+metadata:
+  name: webapp
+spec:
+  replicas: 3
+  selector:
+    matchlabels:
+      app: webapp
+template:
+  metadate:
+  lables:
+     app: webapp
+spec: 
+    containers:
+     -name: webapp
+      image: inginx:latest
+      port:
+          - 80:80

@@ -1,0 +1,4 @@
+FROM ubunutu
+COPY . /app
+WORKDIR /app
+CMD node app.js web-app 
