@@ -1,12 +1,41 @@
+CODE_CHANGES = getGitChange()
 pipeline {
     agent any
+    environment {
+        NEW_VERSION = '1.2'
+        SERVER_CREDENTIALS = credentials('credentials ID') 
+    tools {
+        maven mvn
+        }    
+    paramenters {
+        string(name: 'VERSION', defaultValue:'', description: '')
+        booleanParam(name: 'executeTests',defaultValue: true, description: '')
+          
+    }
     stages{
         stage("build") {
+            when {
+                experssion {
+                    BRANCH_NAME = 'master' && CODE_CHANGES == true
+                }
+            }
             steps {
-                echo 'build the application...'    
+                echo 'build the application...'
+                echo "building version ${NEW_VERSION}"  
+                sh "mvn install"  
             }
         }
         stage("test") {
+            when {
+                expression {
+                    BRANCH_NAME == 'dev' || BRANCH_NAME =='master'
+            when {
+                expression {
+                    params.executeTests == true
+                }
+            }        
+                }
+            }
             steps {
                 echo 'test the application'
             }
@@ -14,6 +43,9 @@ pipeline {
         stage("deploy") {
             steps {
                 echo 'deploy the application'
+                echo "deploying with ${cerdentials ID}"
+                sh "${cerdentials ID}"
+                ech0 "deplopying version ${VERSION}"
             }
         }
     }
